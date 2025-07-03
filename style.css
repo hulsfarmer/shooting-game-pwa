@@ -519,93 +519,134 @@ body {
 /* 모바일 최적화 */
 @media (max-width: 768px) {
     body {
-        padding: 5px;
+        padding: 3px;
         height: 100vh;
         overflow: hidden;
     }
     
     .login-container {
-        padding: 30px 20px;
+        padding: 25px 15px;
+        max-width: 350px;
     }
     
     .login-container h2 {
-        font-size: 2em;
+        font-size: 1.8em;
+        margin-bottom: 20px;
     }
     
     .game-container {
-        padding: 5px;
-        border-radius: 15px;
+        padding: 8px;
+        border-radius: 10px;
         max-height: 100vh;
         max-width: 100vw;
+        gap: 6px;
+    }
+    
+    .game-header {
+        margin-bottom: 8px;
     }
     
     .game-header h1 {
-        font-size: 1.8em;
-        margin-bottom: 10px;
+        font-size: 1.4em;
+        margin-bottom: 6px;
     }
     
     .user-info {
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 6px;
+        margin-bottom: 6px;
+        gap: 5px;
+    }
+    
+    .user-info span {
+        font-size: 0.85em;
+    }
+    
+    .logout-btn {
+        padding: 5px 10px;
+        font-size: 0.75em;
     }
     
     .score-board {
-        padding: 8px;
-        font-size: 0.9em;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 6px;
+        gap: 3px;
+        flex-wrap: wrap;
     }
     
     .score-board div {
-        font-size: 1em;
+        font-size: 0.85em;
+        min-width: 50px;
+        text-align: center;
     }
     
     #gameCanvas {
-        margin: 10px 0;
+        margin: 6px 0;
         border-width: 2px;
-        max-height: 65vh;
+        max-height: 75vh;
         max-width: 100%;
+        flex: 1;
+        min-height: 350px;
     }
     
-
+    .game-controls {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+    }
     
     .start-btn, .pause-btn, .restart-btn, .leaderboard-btn {
-        padding: 10px 20px;
-        font-size: 1em;
-        margin: 5px;
+        padding: 8px 12px;
+        font-size: 0.8em;
+        margin: 2px;
+        flex: 1;
+        min-width: 70px;
+        max-width: 100px;
     }
     
     .sound-btn {
-        padding: 6px 12px;
-        font-size: 0.8em;
+        padding: 6px 10px;
+        font-size: 0.7em;
+        min-width: 50px;
     }
     
     .game-over {
-        padding: 30px 20px;
-        margin: 10px;
+        padding: 20px 15px;
+        margin: 5px;
     }
     
     .game-over h2 {
-        font-size: 2em;
+        font-size: 1.6em;
     }
     
     .game-over p {
-        font-size: 1.1em;
+        font-size: 1em;
     }
     
     .modal-content {
-        padding: 20px;
-        margin: 10px;
+        padding: 15px;
+        margin: 5px;
+        width: 95%;
     }
     
     .modal-header h2 {
-        font-size: 1.5em;
+        font-size: 1.3em;
     }
     
     .leaderboard-tabs {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
     
     .tab-btn {
-        padding: 10px;
+        padding: 6px 10px;
+        font-size: 0.8em;
+        flex: 1;
+        min-width: 70px;
     }
 }
 
@@ -716,5 +757,88 @@ body {
     .fire-btn {
         min-height: 80px;
         min-width: 80px;
+    }
+}
+
+/* 세로 모드 모바일 최적화 */
+@media (max-width: 480px) and (orientation: portrait) {
+    .game-container {
+        padding: 5px;
+        gap: 4px;
+    }
+    
+    .game-header h1 {
+        font-size: 1.2em;
+        margin-bottom: 4px;
+    }
+    
+    .user-info {
+        padding: 4px;
+        margin-bottom: 4px;
+    }
+    
+    .user-info span {
+        font-size: 0.75em;
+    }
+    
+    .logout-btn {
+        padding: 4px 8px;
+        font-size: 0.7em;
+    }
+    
+    .score-board {
+        padding: 4px;
+        gap: 2px;
+    }
+    
+    .score-board div {
+        font-size: 0.75em;
+        min-width: 40px;
+    }
+    
+    #gameCanvas {
+        margin: 4px 0;
+        max-height: 80vh;
+        min-height: 300px;
+    }
+    
+    .game-controls {
+        margin-top: 6px;
+        gap: 3px;
+    }
+    
+    .start-btn, .pause-btn, .restart-btn, .leaderboard-btn {
+        padding: 6px 10px;
+        font-size: 0.75em;
+        min-width: 60px;
+        max-width: 80px;
+    }
+    
+    .sound-btn {
+        padding: 5px 8px;
+        font-size: 0.65em;
+        min-width: 45px;
+    }
+    
+    .mobile-controls {
+        margin: 10px 0;
+    }
+    
+    .control-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .left-btn, .right-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+    }
+    
+    .fire-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
     }
 } 
