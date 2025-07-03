@@ -163,10 +163,13 @@ body {
 .score-board {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     background: rgba(0, 255, 255, 0.1);
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #00ffff;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .score-board div {
@@ -569,17 +572,21 @@ body {
     }
     
     .score-board {
-        flex-direction: row;
+        flex-direction: row !important;
         justify-content: space-around;
+        align-items: center;
         padding: 6px;
         gap: 3px;
         flex-wrap: wrap;
+        display: flex !important;
     }
     
     .score-board div {
         font-size: 0.85em;
         min-width: 50px;
         text-align: center;
+        flex: 1;
+        max-width: 80px;
     }
     
     #gameCanvas {
@@ -787,13 +794,21 @@ body {
     }
     
     .score-board {
+        flex-direction: row !important;
+        justify-content: space-around;
+        align-items: center;
         padding: 4px;
         gap: 2px;
+        flex-wrap: wrap;
+        display: flex !important;
     }
     
     .score-board div {
         font-size: 0.75em;
         min-width: 40px;
+        text-align: center;
+        flex: 1;
+        max-width: 70px;
     }
     
     #gameCanvas {

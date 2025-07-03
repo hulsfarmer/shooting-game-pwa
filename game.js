@@ -23,7 +23,7 @@ class ShootingGame {
             y: this.height - 50,
             width: 120,
             height: 70,
-            speed: 18, // 플레이어 이동 속도를 12에서 18로 증가
+            speed: 8, // 플레이어 이동 속도를 8로 조정 (더 부드러운 이동)
             color: '#00ffff',
             invincible: false,  // 무적 상태
             invincibleTime: 0,   // 무적 시간
