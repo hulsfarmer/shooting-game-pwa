@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA 아이콘 생성기</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon-container { margin: 20px 0; }
+        canvas { border: 1px solid #ccc; margin: 10px; }
+        .download-btn { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin: 5px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 우주 슈팅 게임 PWA 아이콘 생성기</h1>
+    <p>아이콘을 생성하고 다운로드하세요:</p>
+    
+    <div id="iconContainer"></div>
+    
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function createIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // 배경 그라데이션
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#0c0c0c');
+            gradient.addColorStop(0.5, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // 별들
+            for (let i = 0; i < size/10; i++) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.5})`;
+                ctx.fillRect(Math.random() * size, Math.random() * size, 2, 2);
+            }
+            
+            // 비행기 그리기
+            const scale = size / 512;
+            ctx.fillStyle = '#00ffff';
+            ctx.beginPath();
+            ctx.moveTo(size/2, size * 0.2);
+            ctx.lineTo(size * 0.4, size * 0.8);
+            ctx.lineTo(size * 0.6, size * 0.8);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 날개
+            ctx.fillRect(size * 0.43, size * 0.6, size * 0.14, size * 0.04);
+            
+            // 조종석
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(size * 0.47, size * 0.4, size * 0.06, size * 0.12);
+            
+            // 총알 효과
+            ctx.fillStyle = '#ffff00';
+            for (let i = 0; i < 3; i++) {
+                ctx.fillRect(size * 0.49 + i * size * 0.01, size * 0.15 - i * size * 0.02, size * 0.02, size * 0.02);
+            }
+            
+            return canvas;
+        }
+        
+        function downloadIcon(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // 모든 크기의 아이콘 생성
+        sizes.forEach(size => {
+            const container = document.createElement('div');
+            container.className = 'icon-container';
+            
+            const canvas = createIcon(size);
+            container.appendChild(canvas);
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.textContent = `다운로드 (${size}x${size})`;
+            downloadBtn.onclick = () => downloadIcon(canvas, `icon-${size}x${size}.png`);
+            container.appendChild(downloadBtn);
+            
+            document.getElementById('iconContainer').appendChild(container);
+        });
+        
+        // 모든 아이콘 한번에 다운로드
+        const downloadAllBtn = document.createElement('button');
+        downloadAllBtn.className = 'download-btn';
+        downloadAllBtn.style.background = '#28a745';
+        downloadAllBtn.textContent = '모든 아이콘 다운로드';
+        downloadAllBtn.onclick = () => {
+            sizes.forEach(size => {
+                const canvas = createIcon(size);
+                setTimeout(() => downloadIcon(canvas, `icon-${size}x${size}.png`), size * 10);
+            });
+        };
+        document.body.insertBefore(downloadAllBtn, document.getElementById('iconContainer'));
+    </script>
+</body>
+</html> 
