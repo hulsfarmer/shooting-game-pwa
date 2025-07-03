@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="슈팅게임">
+    <meta name="theme-color" content="#00ffff">
+    <meta name="msapplication-TileColor" content="#00ffff">
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    
+    <title>우주 슈팅 게임</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS 아이콘 -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128x128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="384x384" href="icons/icon-384x384.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png">
+</head>
+<body>
+    <!-- 로그인 화면 -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <h2>🚀 우주 슈팅 게임</h2>
+            <div class="login-form">
+                <input type="text" id="username" placeholder="사용자명" maxlength="10">
+                <input type="password" id="password" placeholder="비밀번호" maxlength="20">
+                <button id="loginBtn" class="login-btn">로그인</button>
+            </div>
+            <div class="guest-login">
+                <button id="guestBtn" class="guest-btn">게스트로 플레이</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 게임 화면 -->
+    <div id="gameScreen" class="game-container" style="display: none;">
+        <div class="game-header">
+            <div class="user-info">
+                <span id="currentUser">게스트</span>
+                <button id="logoutBtn" class="logout-btn">로그아웃</button>
+            </div>
+            <h1>✈️ 비행기 슈팅 게임</h1>
+            <div class="score-board">
+                <div class="score">점수: <span id="score">0</span></div>
+                <div class="lives">생명: <span id="lives">5</span></div>
+                <div class="level">레벨: <span id="level">1</span></div>
+                <div class="weapon">무기: <span id="weapon">일반</span> <span id="weaponLevel">Lv.1</span></div>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+        
+        <!-- 모바일 조작 버튼 -->
+        <div class="mobile-controls">
+            <div class="control-buttons">
+                <div class="movement-controls">
+                    <button id="leftBtn" class="control-btn left-btn">←</button>
+                    <button id="rightBtn" class="control-btn right-btn">→</button>
+                </div>
+                <div class="fire-control">
+                    <button id="fireBtn" class="control-btn fire-btn">🔥</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-controls">
+            <button id="startBtn" class="start-btn">게임 시작</button>
+            <button id="pauseBtn" class="pause-btn" style="display: none;">일시정지</button>
+            <button id="leaderboardBtn" class="leaderboard-btn">🏆 순위표</button>
+            <button id="soundToggle" class="sound-btn">🔇 소리 끄기</button>
+        </div>
+        
+        <div id="gameOver" class="game-over" style="display: none;">
+            <h2>게임 오버!</h2>
+            <p>최종 점수: <span id="finalScore">0</span></p>
+            <p>최고 점수: <span id="highScore">0</span></p>
+            <button id="restartBtn" class="restart-btn">다시 시작</button>
+        </div>
+        
+        <div id="levelUp" class="level-up" style="display: none;">
+            <h2>🎉 레벨 업!</h2>
+            <p>다음 레벨: <span id="nextLevel">2</span></p>
+            <p>준비되면 자동으로 시작됩니다...</p>
+        </div>
+    </div>
+
+    <!-- 순위표 모달 -->
+    <div id="leaderboardModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🏆 순위표</h2>
+                <button id="closeLeaderboard" class="close-btn">&times;</button>
+            </div>
+            <div class="leaderboard-tabs">
+                <button class="tab-btn active" data-tab="global">전체 순위</button>
+                <button class="tab-btn" data-tab="personal">내 기록</button>
+            </div>
+            <div class="leaderboard-content">
+                <div id="globalLeaderboard" class="tab-content active">
+                    <div class="leaderboard-list">
+                        <!-- 전체 순위가 여기에 표시됩니다 -->
+                    </div>
+                </div>
+                <div id="personalLeaderboard" class="tab-content">
+                    <div class="leaderboard-list">
+                        <!-- 개인 기록이 여기에 표시됩니다 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 오디오 생성기 스크립트 -->
+    <script src="create_audio.js"></script>
+    
+    <!-- 클라우드 스토리지 스크립트 -->
+    <script src="cloud-storage.js"></script>
+    
+    <script src="game.js"></script>
+    
+    <!-- PWA 설치 및 서비스 워커 등록 -->
+    <script>
+        // 서비스 워커 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('서비스 워커 등록 성공:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('서비스 워커 등록 실패:', error);
+                    });
+            });
+        }
+        
+        // PWA 설치 프롬프트
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // 설치 버튼 표시 (선택사항)
+            const installButton = document.createElement('button');
+            installButton.textContent = '📱 앱 설치';
+            installButton.className = 'install-btn';
+            installButton.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, #00ffff, #0080ff);
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 25px;
+                cursor: pointer;
+                z-index: 1000;
+                font-weight: bold;
+                box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            `;
+            
+            installButton.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('사용자가 앱 설치를 수락했습니다');
+                        }
+                        deferredPrompt = null;
+                        installButton.remove();
+                    });
+                }
+            });
+            
+            document.body.appendChild(installButton);
+        });
+        
+        // 앱이 설치되었는지 확인
+        window.addEventListener('appinstalled', () => {
+            console.log('앱이 성공적으로 설치되었습니다');
+        });
+    </script>
+</body>
+</html> 
